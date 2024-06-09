@@ -39,15 +39,15 @@ public class AccountServiceImpl implements AccountService {
      * @return банковский счет
      */
     @Override
-    public Account topUp(UserRequest request) {
+    public Account refill(UserRequest request) {
         Optional<Account> optionalAccount = accountRepository.findById(request.getAccountId());
 
         if (optionalAccount.isPresent()) {
             Account account = optionalAccount.get();
 
-            BigDecimal moneyForTopUp = request.getMoney();
+            BigDecimal moneyForRefill = request.getMoney();
             BigDecimal currentMoney = account.getAmount();
-            account.setAmount(currentMoney.add(moneyForTopUp));
+            account.setAmount(currentMoney.add(moneyForRefill));
 
             accountRepository.save(account);
 
@@ -87,7 +87,8 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new NoSuchAccountException(
                 "ACCOUNT_NOT_FOUND",
-                "Аккаунт не найден со следующим id:" + request.getAccountId());    }
+                "Аккаунт не найден со следующим id:" + request.getAccountId());
+    }
 
     /**
      * Проверка количества денег на счете
@@ -103,7 +104,8 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new NoSuchAccountException(
                 "ACCOUNT_NOT_FOUND",
-                "Аккаунт не найден со следующим id:" + accountId);    }
+                "Аккаунт не найден со следующим id:" + accountId);
+    }
 
     private boolean currentMoneySufficient(Account account, BigDecimal money) {
         BigDecimal currentMoney = account.getAmount();

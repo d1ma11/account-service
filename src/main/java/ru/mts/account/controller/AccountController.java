@@ -31,11 +31,11 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 
-    @PatchMapping("/topUp")
-    public ResponseEntity<InfoResponse> topUpMoney(@RequestBody UserRequest request) {
+    @PatchMapping("/refill")
+    public ResponseEntity<InfoResponse> refillAccount(@RequestBody UserRequest request) {
         InfoResponse response = new InfoResponse();
 
-        Account account = accountService.topUp(request);
+        Account account = accountService.refill(request);
         response.setPhoneNumber(userRepository.findById(request.getAccountId()).get().getPhone());
         response.setAmount(account.getAmount());
 
@@ -43,7 +43,7 @@ public class AccountController {
     }
 
     @PatchMapping("/withdraw")
-    public ResponseEntity<InfoResponse> withdrawMoney(@RequestBody UserRequest request) {
+    public ResponseEntity<InfoResponse> withdrawAccount(@RequestBody UserRequest request) {
         InfoResponse response = new InfoResponse();
 
         Account account = accountService.withdraw(request);

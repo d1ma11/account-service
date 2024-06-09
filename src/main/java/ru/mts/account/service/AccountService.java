@@ -9,7 +9,7 @@ public interface AccountService {
 
     boolean doesHaveEnoughMoney(Integer accountId, BigDecimal money);
 
-    Account topUp(UserRequest request);
+    Account refill(UserRequest request);
 
     Account withdraw(UserRequest request);
 
