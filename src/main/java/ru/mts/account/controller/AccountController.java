@@ -20,6 +20,13 @@ public class AccountController {
     private final AccountService accountService;
     private final UserRepository userRepository;
 
+    /**
+     * Обрабатывает запрос пользователя для предоставления информации о состоянии банковского счета
+     *
+     * @param accountId идентификатор клиента
+     * @return Объект {@link InfoResponse}, содержащий в себе номер телефона клиента и сумма,
+     * лежащая на банковском счете
+     */
     @GetMapping("/{accountId}")
     public ResponseEntity<InfoResponse> checkAccount(@PathVariable Integer accountId) {
         InfoResponse response = new InfoResponse();
@@ -31,6 +38,13 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 
+    /**
+     * Обрабатывает запрос пользователя для выполнения операции пополнения счёта в банке
+     *
+     * @param request запрос, в котором указаны идентификатор клиента и сумма на пополнение
+     * @return Объект {@link InfoResponse}, содержащий в себе номер телефона клиента и сумма,
+     * лежащая на банковском счете
+     */
     @PatchMapping("/refill")
     public ResponseEntity<InfoResponse> refillAccount(@RequestBody UserRequest request) {
         InfoResponse response = new InfoResponse();
@@ -42,6 +56,13 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Обрабатывает запрос пользователя для осуществления операции снятия денежных средств с банковского счета
+     *
+     * @param request запрос, в котором указаны идентификатор клиента и сумма на пополнение
+     * @return Объект {@link InfoResponse}, содержащий в себе номер телефона клиента и сумма,
+     * лежащая на банковском счете
+     */
     @PatchMapping("/withdraw")
     public ResponseEntity<InfoResponse> withdrawAccount(@RequestBody UserRequest request) {
         InfoResponse response = new InfoResponse();
@@ -53,6 +74,13 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Обрабатывает запрос пользователя для проверки наличия достаточной суммы денег на его банковском счёте
+     *
+     * @param request запрос, в котором указаны идентификатор клиента и сумма на пополнение
+     * @return Объект {@link InfoResponse}, содержащий в себе номер телефона клиента и сумма,
+     * лежащая на банковском счете
+     */
     @PostMapping("/check")
     public ResponseEntity<Boolean> isEnoughMoney(@RequestBody UserRequest request) {
         Boolean isEnough = accountService.doesHaveEnoughMoney(

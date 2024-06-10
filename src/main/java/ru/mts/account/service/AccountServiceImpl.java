@@ -17,13 +17,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
-    /**
-     * Сравнивает количество денег для последующей операции с текущим балансом на счете
-     *
-     * @param accountId идентификатор счета, с которым идет сравнение
-     * @param money     деньги, с которыми нужно провести операцию
-     * @return true - если достаточно денег, false - иначе
-     */
     @Override
     public boolean doesHaveEnoughMoney(Integer accountId, BigDecimal money) {
         return accountRepository.findById(accountId)
@@ -31,13 +24,6 @@ public class AccountServiceImpl implements AccountService {
                 .orElse(false);
     }
 
-    /**
-     * Операция по пополнению банковского счета
-     *
-     * @param request запрос, в теле которого содержатся идентификатор счета и сумма денег
-     *                на пополнение счета
-     * @return банковский счет
-     */
     @Override
     public Account refill(UserRequest request) {
         Optional<Account> optionalAccount = accountRepository.findById(request.getAccountId());
@@ -58,13 +44,6 @@ public class AccountServiceImpl implements AccountService {
                 "Аккаунт не найден со следующим id:" + request.getAccountId());
     }
 
-    /**
-     * Операция по снятию денежных средств с банковского счета
-     *
-     * @param request запрос, в теле которого содержатся идентификатор счета и сумма денег
-     *                на снятие
-     * @return банковский счет
-     */
     @Override
     public Account withdraw(UserRequest request) {
         Optional<Account> optionalAccount = accountRepository.findById(request.getAccountId());
@@ -90,12 +69,6 @@ public class AccountServiceImpl implements AccountService {
                 "Аккаунт не найден со следующим id:" + request.getAccountId());
     }
 
-    /**
-     * Проверка количества денег на счете
-     *
-     * @param accountId идентификатор банковского счета
-     * @return сумма денежных средств
-     */
     @Override
     public BigDecimal checkAccount(Integer accountId) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
