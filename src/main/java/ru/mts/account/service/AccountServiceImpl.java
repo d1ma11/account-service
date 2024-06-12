@@ -21,7 +21,9 @@ public class AccountServiceImpl implements AccountService {
     public boolean doesHaveEnoughMoney(Integer accountId, BigDecimal money) {
         return accountRepository.findById(accountId)
                 .map(account -> currentMoneySufficient(account, money))
-                .orElse(false);
+                .orElseThrow(() -> new NoSuchAccountException(
+                        "ACCOUNT_NOT_FOUND",
+                        "Аккаунт не найден со следующим id: " + accountId));
     }
 
     @Override
@@ -41,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new NoSuchAccountException(
                 "ACCOUNT_NOT_FOUND",
-                "Аккаунт не найден со следующим id:" + request.getAccountId());
+                "Аккаунт не найден со следующим id: " + request.getAccountId());
     }
 
     @Override
@@ -66,7 +68,7 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new NoSuchAccountException(
                 "ACCOUNT_NOT_FOUND",
-                "Аккаунт не найден со следующим id:" + request.getAccountId());
+                "Аккаунт не найден со следующим id: " + request.getAccountId());
     }
 
     @Override
@@ -77,7 +79,7 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new NoSuchAccountException(
                 "ACCOUNT_NOT_FOUND",
-                "Аккаунт не найден со следующим id:" + accountId);
+                "Аккаунт не найден со следующим id: " + accountId);
     }
 
     private boolean currentMoneySufficient(Account account, BigDecimal money) {
