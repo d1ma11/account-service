@@ -1,5 +1,6 @@
 package ru.mts.account.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AccountController {
      * лежащая на банковском счете
      */
     @PatchMapping("/refill")
-    public ResponseEntity<InfoResponse> refillAccount(@RequestBody UserRequest request) {
+    public ResponseEntity<InfoResponse> refillAccount(@RequestBody @Valid UserRequest request) {
         InfoResponse response = new InfoResponse();
 
         Account account = accountService.refill(request);
@@ -64,7 +65,7 @@ public class AccountController {
      * лежащая на банковском счете
      */
     @PatchMapping("/withdraw")
-    public ResponseEntity<InfoResponse> withdrawAccount(@RequestBody UserRequest request) {
+    public ResponseEntity<InfoResponse> withdrawAccount(@RequestBody @Valid UserRequest request) {
         InfoResponse response = new InfoResponse();
 
         Account account = accountService.withdraw(request);
@@ -82,7 +83,7 @@ public class AccountController {
      * лежащая на банковском счете
      */
     @PostMapping("/check")
-    public ResponseEntity<Boolean> isEnoughMoney(@RequestBody UserRequest request) {
+    public ResponseEntity<Boolean> isEnoughMoney(@RequestBody @Valid UserRequest request) {
         Boolean isEnough = accountService.doesHaveEnoughMoney(
                 request.getAccountId(),
                 request.getMoney()
